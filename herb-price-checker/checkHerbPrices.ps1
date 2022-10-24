@@ -1,15 +1,12 @@
 $url = 'https://prices.runescape.wiki/api/v1/osrs/1h'
 
 try {
-    $latestPricesFile = Join-Path $PSScriptRoot "latestPrices.json"
     $herbsFile = Join-Path $PSScriptRoot "herbs.json"
+    $herbs = Get-Content $herbsFile -Raw | ConvertFrom-Json
     $numberOfHerbsPickedPerSeed = 8.56
 
     $headers = @{'User-Agent'='herb-prices-powershell-script'}
     $response = Invoke-WebRequest -Uri $url -Method GET -Headers $headers
-    $response.Content | Out-File $latestPricesFile -Force
-
-    $herbs = Get-Content $herbsFile -Raw | ConvertFrom-Json
     $latestPrices = $response.Content | ConvertFrom-Json
 
     foreach($herb in $herbs) {
@@ -21,6 +18,7 @@ try {
         $herb.HerbPriceAverage = [int]$(($herbPrices.avgHighPrice + $herbPrices.avgLowPrice) / 2 )
         $herb.ExpectedProfit = [int]($herb.HerbPriceAverage * $numberOfHerbsPickedPerSeed) - $herb.SeedPriceAverage
     }
+
     Write-Host
     Write-Host "Here are the latest herb prices. This table assumes 8.56 herbs harvested per seed."
     $herbs | Sort-Object -Property ExpectedProfit -Descending | Format-Table Name, ExpectedProfit, SeedPriceAverage, HerbPriceAverage
