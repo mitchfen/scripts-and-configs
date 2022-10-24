@@ -1,0 +1,52 @@
+[
+    {
+        "Name": "Ranarr",
+        "Id": 257,
+        "SeedId": 5295,
+        "HighPriceAverage": 0,
+        "LowPriceAverage": 0,
+        "HerbPriceAverage": 0,
+        "SeedPriceAverage": 0,
+        "ExpectedProfit": 0
+    },
+    {
+        "Name": "Snapdragon",
+        "Id": 3000,
+        "SeedId": 5300,
+        "HighPriceAverage": 0,
+        "LowPriceAverage": 0,
+        "HerbPriceAverage": 0,
+        "SeedPriceAverage": 0,
+        "ExpectedProfit": 0
+    },
+    {
+        "Name": "Torstol",
+        "Id": 269,
+        "SeedId": 5304,
+        "HighPriceAverage": 0,
+        "LowPriceAverage": 0,
+        "HerbPriceAverage": 0,
+        "SeedPriceAverage": 0,
+        "ExpectedProfit": 0
+    },
+    {
+        "Name": "Toadflax",
+        "Id": 2998,
+        "SeedId": 5296,
+        "HighPriceAverage": 0,
+        "LowPriceAverage": 0,
+        "HerbPriceAverage": 0,
+        "SeedPriceAverage": 0,
+        "ExpectedProfit": 0
+    },
+    {
+        "Name": "Cadantine",
+        "Id": 265,
+        "SeedId": 5301,
+        "HighPriceAverage": 0,
+        "LowPriceAverage": 0,
+        "HerbPriceAverage": 0,
+        "SeedPriceAverage": 0,
+        "ExpectedProfit": 0
+    }
+]
