@@ -3,5 +3,4 @@ param(
     [Parameter(Mandatory)][securestring]$Password
 )
 
-$securePassword = ConvertTo-SecureString $Password -AsPlainText -Force
-Set-LocalUser -Name $Username -Password $securePassword
+Set-LocalUser -Name $Username -Password $Password
