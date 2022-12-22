@@ -14,7 +14,7 @@ try {
     
     git checkout $defaultBranch;
     if ( $LASTEXITCODE -ne 0 ) {
-        throw "Git encountered an error."
+        throw "Git failed to checkout the specified branch."
     }
     
     Write-Host "Fetching and pruning local references to remote branches..."
