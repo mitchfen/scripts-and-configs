@@ -3,7 +3,10 @@ $url = 'https://prices.runescape.wiki/api/v1/osrs/1h'
 try {
     $herbsFile = Join-Path $PSScriptRoot "herbs.json"
     $herbs = Get-Content $herbsFile -Raw | ConvertFrom-Json
-    $numberOfHerbsPickedPerSeed = 8.56
+
+    # From https://oldschool.runescape.wiki/w/Herb#Farming_herbs
+    $numberofHerbsPerSeed = 9.423 
+    $numberofPatches = 8
 
     $headers = @{'User-Agent'='herb-prices-powershell-script'}
     $response = Invoke-WebRequest -Uri $url -Method GET -Headers $headers
@@ -12,16 +15,22 @@ try {
     foreach($herb in $herbs) {
         $herbPrices = $latestPrices.data.$($herb.Id)
         $seedPrices = $latestPrices.data.$($herb.SeedId)
-        $herb.SeedPriceAverage = [int]$(($seedPrices.avgHighPrice + $seedPrices.avgLowPrice) / 2 )
+        $herb.SeedPrice = [int]$(($seedPrices.avgHighPrice + $seedPrices.avgLowPrice) / 2 )
         $herb.HighPriceAverage = $herbPrices.avgHighPrice
         $herb.LowPriceAverage = $herbPrices.avgLowPrice
-        $herb.HerbPriceAverage = [int]$(($herbPrices.avgHighPrice + $herbPrices.avgLowPrice) / 2 )
-        $herb.ExpectedProfit = [int]($herb.HerbPriceAverage * $numberOfHerbsPickedPerSeed) - $herb.SeedPriceAverage
+        $herb.HerbPrice = [int]$(($herbPrices.avgHighPrice + $herbPrices.avgLowPrice) / 2 )
+        $herb.ExpectedProfit = [int]($herb.HerbPrice * $numberOfHerbsPerSeed) - $herb.SeedPrice
+        $herb.ExpectedProfit = $herb.ExpectedProfit
     }
 
     Write-Host
-    Write-Host "Here are the latest herb prices. This table assumes 8.56 herbs harvested per seed."
-    $herbs | Sort-Object -Property ExpectedProfit -Descending | Format-Table Name, ExpectedProfit, SeedPriceAverage, HerbPriceAverage
+    Write-Host "Here are the latest herb prices."
+    Write-Host "This table assumes $numberOfHerbsPerSeed herbs harvested per seed."
+
+    $herbs = $herbs | Sort-Object -Property ExpectedProfit -Descending
+    $herbs | Format-Table Herb, ExpectedProfit, SeedPrice, HerbPrice
+    Write-Host "If you plant $($herbs[0].Herb) in $numberofPatches patches you can expect " -NoNewLine
+    Write-Host "$($herbs[0].ExpectedProfit / 1000 * $numberofPatches)K profit" -ForegroundColor Green
 
 } catch {
     $_
