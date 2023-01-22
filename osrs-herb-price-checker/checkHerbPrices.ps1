@@ -15,11 +15,11 @@ try {
     foreach($herb in $herbs) {
         $herbPrices = $latestPrices.data.$($herb.Id)
         $seedPrices = $latestPrices.data.$($herb.SeedId)
-        $herb.SeedPrice = [int]$(($seedPrices.avgHighPrice + $seedPrices.avgLowPrice) / 2 )
+        $herb.SeedPrice = [int](($seedPrices.avgHighPrice + $seedPrices.avgLowPrice) / 2 )
         $herb.HighPriceAverage = $herbPrices.avgHighPrice
         $herb.LowPriceAverage = $herbPrices.avgLowPrice
-        $herb.HerbPrice = [int]$(($herbPrices.avgHighPrice + $herbPrices.avgLowPrice) / 2 )
-        $herb.ExpectedProfit = [int]($herb.HerbPrice * $numberOfHerbsPerSeed) - $herb.SeedPrice
+        $herb.HerbPrice = [int](($herbPrices.avgHighPrice + $herbPrices.avgLowPrice) / 2 )
+        $herb.ExpectedProfit = [int](($herb.HerbPrice * $numberOfHerbsPerSeed) - $herb.SeedPrice)
         $herb.ExpectedProfit = $herb.ExpectedProfit
     }
 
@@ -30,7 +30,7 @@ try {
     $herbs = $herbs | Sort-Object -Property ExpectedProfit -Descending
     $herbs | Format-Table Herb, ExpectedProfit, SeedPrice, HerbPrice
     Write-Host "If you plant $($herbs[0].Herb) in $numberofPatches patches you can expect " -NoNewLine
-    Write-Host "$($herbs[0].ExpectedProfit / 1000 * $numberofPatches)K profit" -ForegroundColor Green
+    Write-Host "$([int]($herbs[0].ExpectedProfit / 1000) * $numberofPatches)K profit" -ForegroundColor Green
 
 } catch {
     $_
