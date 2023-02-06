@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory)][string]$Username,
-    [Parameter(Mandatory)][securestring]$Password
+    [Parameter(Mandatory)][SecureString]$SecurePassword
 )
 
-Set-LocalUser -Name $Username -Password $Password
+$cmd = "Set-LocalUser -Name $Username -Password $SecurePassword"
+Start-Process powershell -verb runas -ArgumentList "$cmd" -WindowStyle Hidden
