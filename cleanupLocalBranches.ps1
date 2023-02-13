@@ -21,7 +21,7 @@ try {
     git fetch --prune;
     
     Write-Host "Deleting local branches which do not exist on remote..."
-    git branch -vv | Select-String -Pattern ": gone]" | ForEach-Object { $_.toString().Trim().Split(" ")[0]} | ForEach-Object {git branch -d $_}
+    git branch -vv | Select-String -Pattern ": gone]" | ForEach-Object { $_.toString().Trim().Split(" ")[0]} | ForEach-Object {git branch -D $_}
     
     Write-Host "Done!"
 } 
