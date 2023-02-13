@@ -1,3 +1,4 @@
+[CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$Username,
     [Parameter(Mandatory)][SecureString]$SecurePassword

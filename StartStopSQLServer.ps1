@@ -1,4 +1,5 @@
-﻿param(
+﻿[CmdletBinding()]
+param(
     [switch]$Start,
     [switch]$Stop
 )
