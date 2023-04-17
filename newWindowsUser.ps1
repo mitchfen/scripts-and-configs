@@ -1,8 +1,9 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$Username,
-    [Parameter(Mandatory)][SecureString]$SecurePassword
+    [Parameter(Mandatory)][string]$Password
 )
 
-$cmd = "New-LocalUser -Name $Username -Password $SecurePassword"
-Start-Process powershell -verb runas -ArgumentList "$cmd" -WindowStyle Hidden
+New-LocalUser -Name $Username -Password $(ConvertTo-SecureString -String $Password -AsPlainText -Force)
+
+
