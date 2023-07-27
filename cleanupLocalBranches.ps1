@@ -1,4 +1,6 @@
 try {
+    $invocationDirectory = $pwd
+    $ErrorActionPreference="Stop"
     Write-Warning "This script will delete branches in this repo that have been deleted on the remote."
     Write-Warning "It should keep any local branches which were never pushed to the remote, but use at your own risk."
     
@@ -30,6 +32,6 @@ catch {
     exit
 } 
 finally {
-    Set-Location $PSScriptRoot
+    Set-Location $invocationDirectory
 }
 

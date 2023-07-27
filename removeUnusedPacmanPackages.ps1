@@ -5,7 +5,7 @@ try {
     sudo pacman -R $x
     return 
   }
-  Write-Host "No uneccessary packages to remove."
+  Write-Host -Object "No uneccessary packages to remove." -ForegroundColor Gray
 }
 catch {
   Write-Error $_

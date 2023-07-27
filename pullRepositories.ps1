@@ -4,6 +4,7 @@ param(
 )
 
 try {
+  $ErrorActionPreference="Stop"
   if(!$(Test-Path $Directory)) {
     throw "Directory $Directory does not exist!"
   }
@@ -18,5 +19,5 @@ try {
   }
   Set-Location $PSScriptRoot
 } catch {
-  $_
+  Write-Error $_
 }

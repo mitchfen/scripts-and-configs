@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$Username,
-    [Parameter(Mandatory)][string]$Password
+    [Parameter(Mandatory)][string]$PlaintextPassword
 )
 
-Set-LocalUser -Name $Username -Password $(ConvertTo-SecureString -String $Password -AsPlainText -Force)
+$securePassword = $(ConvertTo-SecureString -String $PlaintextPassword -AsPlainText -Force)
+Set-LocalUser -Name $Username -Password $securePassword
