@@ -19,5 +19,6 @@ try {
   }
   Set-Location $PSScriptRoot
 } catch {
-  Write-Error $_
+    $line = $_.Exception.InvocationInfo.ScriptLineNumber
+    Write-Host "Exception: $_ at $line" -ForegroundColor Red
 }

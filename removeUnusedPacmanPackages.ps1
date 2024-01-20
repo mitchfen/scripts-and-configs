@@ -5,8 +5,9 @@ try {
     sudo pacman -R $x
     return 
   }
-  Write-Host -Object "No uneccessary packages to remove." -ForegroundColor Gray
+  Write-Host -Object "No uneccessary packages to remove." -ForegroundColor Green
 }
 catch {
-  Write-Error $_
+  $line = $_.Exception.InvocationInfo.ScriptLineNumber
+  Write-Host "Exception: $_ at $line" -ForegroundColor Red
 }
