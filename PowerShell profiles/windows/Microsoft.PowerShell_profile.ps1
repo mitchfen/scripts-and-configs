@@ -1,31 +1,16 @@
 $ErrorActionPreference="Stop"
 $ProgressPreference = "SilentlyContinue"
+$env:KUBE_EDITOR="code -w"
+$env:PATH+=":/dev/scripts_and_configs/scripts"
 $env:DOTNET_CLI_TELEMETRY_OPTOUT=1
 $env:NUKE_TELEMETRY_OPTOUT=1
 $env:AZURE_CORE_COLLECT_TELEMETRY=0
-$env:KUBE_EDITOR="code -w"
 
 oh-my-posh init pwsh | Invoke-Expression
 #$theme="pixelrobots"
 #$theme="avit"
 $theme="ys"
 oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/$theme.omp.json" | Invoke-Expression
-
-function Edit-PSReadLineHistory {
- code "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
-}
-
-function Edit-NugetConfig {
-    "code $env:APPDATA\NuGet\NuGet.Config" | Invoke-Expression
-}
-
-function Remove-OldPowerShellModules {
-  $modules = Get-InstalledModule
-  foreach ($module in $modules) {
-    Write-Host -Message "Uninstalling any old versions of $($module.Name) [Latest currently installed is $( $module.Version)]"
-    Get-InstalledModule -Name $module.Name -AllVersions | Where-Object {$_.Version -ne $module.Version} | Uninstall-Module -Verbose 
-  }
-}
 
 # Aliases
 Set-Alias -Name lf -Value lf.exe
@@ -46,3 +31,5 @@ Set-Alias -Name wc -Value "C:\Program Files\Git\usr\bin\wc.exe"
 Set-Alias -Name wc -Value "C:\Program Files\Git\usr\bin\touch.exe"
 Set-Alias -Name gnudiff -Value "C:\Program Files\Git\usr\bin\diff.exe"
 Set-Alias -Name sed -Value "C:\Program Files\Git\usr\bin\sed.exe"
+
+Import-Module "/dev/scripts_and_configs/scripts/mitchHelperFunctions.psm1"

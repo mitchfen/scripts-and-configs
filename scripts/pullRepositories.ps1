@@ -1,15 +1,15 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][string]$GitDirectory
+    [Parameter(Mandatory)][string]$Directory
 )
 
 try {
   $ErrorActionPreference="Stop"
-  if(!$(Test-Path $GitDirectory)) {
-    throw "Directory $GitDirectory does not exist!"
+  if(!$(Test-Path $Directory)) {
+    throw "Directory $Directory does not exist!"
   }
-  $gitRepos = Get-ChildItem -Directory $GitDirectory | Select-Object Name
-  Set-Location $GitDirectory
+  $gitRepos = Get-ChildItem -Directory $Directory | Select-Object Name
+  Set-Location $Directory
   foreach ($gitRepo in $gitRepos) {
     Set-Location "./$($gitRepo.Name)"
     Write-Host -ForegroundColor Green "Fetching/Pulling $($gitRepo.Name)"
