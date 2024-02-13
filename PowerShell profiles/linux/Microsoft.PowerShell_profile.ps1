@@ -9,5 +9,3 @@ Set-Alias -Name Get-Updates -Value updateArch.ps1
 oh-my-posh init pwsh | Invoke-Expression
 $env:POSHTHEMESPATH = "$HOME/.oh-my-posh-themes"
 oh-my-posh init pwsh --config "$env:POSHTHEMESPATH/avit.omp.json" | Invoke-Expression
-
-Import-Module "/home/mitchfen/dev/scripts_and_configs/scripts/mitchHelperFunctions.psm1"

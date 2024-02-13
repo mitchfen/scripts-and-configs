@@ -1,22 +1,22 @@
-$ErrorActionPreference="Stop"
+$ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
-$env:KUBE_EDITOR="code -w"
-$env:PATH+=":/dev/scripts_and_configs/scripts"
-$env:DOTNET_CLI_TELEMETRY_OPTOUT=1
-$env:NUKE_TELEMETRY_OPTOUT=1
-$env:AZURE_CORE_COLLECT_TELEMETRY=0
+$env:KUBE_EDITOR = "code -w"
+$env:PATH += ":/dev/scripts_and_configs/scripts"
+$env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+$env:NUKE_TELEMETRY_OPTOUT = 1
+$env:AZURE_CORE_COLLECT_TELEMETRY = 0
 
 oh-my-posh init pwsh | Invoke-Expression
 #$theme="pixelrobots"
 #$theme="avit"
-$theme="ys"
+$theme = "ys"
 oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/$theme.omp.json" | Invoke-Expression
 
 # Aliases
 Set-Alias -Name lf -Value lf.exe
-Set-Alias -Name vim -Value "C:/Program Files/Vim/vim90/vim.exe"
+Set-Alias -Name vim -Value "C:/Program Files/Vim/vim91/vim.exe"
 Set-Alias -Name unzip -Value "Expand-Archive"
-Set-Alias -Name k -Value "kubectl"
+Set-Alias -Name rider -Value "rider64.exe"
 Set-Alias -Name 7z -Value 'C:\Program Files\7-Zip\7zFM.exe'
 
 # GNU Core utils from Git Bash
@@ -28,8 +28,31 @@ Set-Alias -Name file -Value "C:\Program Files\Git\usr\bin\xargs.exe"
 Set-Alias -Name which -Value "C:\Program Files\Git\usr\bin\which.exe"
 Set-Alias -Name touch -Value "C:\Program Files\Git\usr\bin\touch.exe"
 Set-Alias -Name wc -Value "C:\Program Files\Git\usr\bin\wc.exe"
-Set-Alias -Name wc -Value "C:\Program Files\Git\usr\bin\touch.exe"
-Set-Alias -Name gnudiff -Value "C:\Program Files\Git\usr\bin\diff.exe"
 Set-Alias -Name sed -Value "C:\Program Files\Git\usr\bin\sed.exe"
+Set-Alias -Name gnudiff -Value "C:\Program Files\Git\usr\bin\diff.exe"
 
-Import-Module "/dev/scripts_and_configs/scripts/mitchHelperFunctions.psm1"
+Function Edit-PSReadLineHistory {
+    code "$env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
+}
+
+Function Edit-NugetConfig {
+    "code $env:APPDATA\NuGet\NuGet.Config" | Invoke-Expression
+}
+
+Function Clear-ConfigitNugetCache {
+    $nugetCacheDir = "$HOME\.nuget\packages"
+    $diskSpaceUsed = du -ch $nugetCacheDir/configit* | grep total
+    Write-Host "Configit packages make up $diskSpaceUsed"
+    Get-ChildItem -Path $(Join-Path $nugetCacheDir "configit*") | ForEach-Object {
+        Write-Host "Deleting" $_.Name
+        Remove-Item $_.FullName -Recurse -Force
+    }
+}
+
+Function Remove-OldPowerShellModules {
+    $modules = Get-InstalledModule
+    foreach ($module in $modules) {
+        Write-Host -Message "Uninstalling any old versions of $($module.Name) [Latest currently installed is $( $module.Version)]"
+        Get-InstalledModule -Name $module.Name -AllVersions | Where-Object { $_.Version -ne $module.Version } | Uninstall-Module -Verbose
+    }
+}
