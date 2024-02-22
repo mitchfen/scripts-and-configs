@@ -1,7 +1,6 @@
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
-$env:KUBE_EDITOR = "code -w"
-$env:PATH += ":/dev/scripts_and_configs/scripts"
+$env:KUBE_EDITOR = "nvim"
 $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
 $env:NUKE_TELEMETRY_OPTOUT = 1
 $env:AZURE_CORE_COLLECT_TELEMETRY = 0
@@ -14,7 +13,6 @@ oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/$theme.omp.json" | Invoke-E
 
 # Aliases
 Set-Alias -Name lf -Value lf.exe
-Set-Alias -Name vim -Value "C:/Program Files/Vim/vim91/vim.exe"
 Set-Alias -Name unzip -Value "Expand-Archive"
 Set-Alias -Name rider -Value "rider64.exe"
 Set-Alias -Name 7z -Value 'C:\Program Files\7-Zip\7zFM.exe'
