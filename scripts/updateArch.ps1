@@ -41,7 +41,7 @@ function Remove-UnusedPackmanPackages {
   Write-Host ""
 }
 
-Write-Section "Updating aur packages..."
+Write-Section "Updating pacman packages..."
 sudo pacman -Syyu
 
 Write-Section "Updating aur packages..."
