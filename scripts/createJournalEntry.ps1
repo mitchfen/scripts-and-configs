@@ -9,9 +9,9 @@ $tomorrowsDate = Get-Date (Get-Date).addDays(1) -Format "yyyy-MM-dd"
 $fileName = $todaysDate + ".md"
 $journalEntryNumber = (Get-ChildItem $journalDir | Measure-Object ).Count
 if ( !(Get-ChildItem -Filter $fileName) ) {
-    Write-Output "[[ $yesterdaysDate ]]" > $fileName
-    Write-Output "[[ $tomorrowsDate ]]" >> $fileName
-    Write-Output "Entry Number $journalEntryNumber" >> $fileName
+    Write-Output "Yesterday: [[ Journal/$yesterdaysDate ]]" > $fileName
+    Write-Output "Tomorrow: [[ Journal/$tomorrowsDate ]]" >> $fileName
+    Write-Output "Entry Number: $journalEntryNumber" >> $fileName
 }
 
 vim "$fileName"
