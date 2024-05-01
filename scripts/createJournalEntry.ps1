@@ -1,4 +1,4 @@
-$journalDir = Join-Path $HOME "mindpalace/Journal"
+$journalDir = Join-Path $HOME "dev/obsidian-vault-mitchfen/Journal"
 if (!(Test-Path $journalDir)) {
   New-Item -Type Directory -Path $journalDir | Out-Null
 }
