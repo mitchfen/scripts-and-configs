@@ -1,4 +1,5 @@
 $aurPath = "~/aur" # set to location of downloaded aur git repos
+
 function Write-Section {
   param(
       [Parameter(Mandatory)] [string] $msg
@@ -21,6 +22,7 @@ function Update-AurPackages {
       }
       else {
           makepkg -si
+          git clean -fxd
       }
   }
   Set-Location $PSScriptRoot
