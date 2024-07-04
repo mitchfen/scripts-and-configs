@@ -43,6 +43,19 @@ function Remove-UnusedPackmanPackages {
   Write-Host ""
 }
 
+function Update-OhMyPosh {
+  $ohMyPoshVersionFile = Join-Path $HOME ".oh-my-posh-version.txt"
+  $version = Get-Content $ohMyPoshVersionFile
+  Write-Host "Currently installed version is $version"
+  $latestVersion = $(Invoke-WebRequest  "https://api.github.com/repos/JanDeDobbeleer/oh-my-posh/tags?per_page=1").Content |  jq -r '.[0].name'
+  Write-Host "Latest version is $latestVersion"
+  if ($version -eq $latestVersion) {
+    Write-Host "Nothing to do!"
+    return
+  }
+  sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s
+}
+
 Write-Section "Updating pacman packages..."
 sudo pacman -Syyu
 
@@ -50,7 +63,7 @@ Write-Section "Updating aur packages..."
 Update-AurPackages
 
 Write-Section "Updating ohmyposh..."
-sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s
+Update-OhMyPosh
 
 Write-Section "Updating flatpak packages..."
 flatpak update
