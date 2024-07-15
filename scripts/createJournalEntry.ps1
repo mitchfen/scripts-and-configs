@@ -6,21 +6,19 @@ function Assert-Directory {
 }
 
 if ($env:OS -like "Windows*" ) {
-	$journalDir = "/dev/obsidian-vault-mitchfen/Journal"
+	$journalDir = "/dev/mitchfen-vault/Journal"
 }
 else {
-	$journalDir = Join-Path $HOME "dev/obsidian-vault-mitchfen/Journal"
+	$journalDir = Join-Path $HOME "dev/mitchfen-vault/Journal"
 }
 Assert-Directory -DirectoryName $journalDir
 Set-Location $journalDir
 
 $todaysDate = Get-Date
 $todaysDateAsString = Get-Date -Format "yyyy-MM-dd"
-$fileName = $todaysDateAsString + ".md"
-$journalEntryNumber = (Get-ChildItem $journalDir | Measure-Object ).Count
+$fileName = "Journal-" + $todaysDateAsString + ".md"
 if ( !(Get-ChildItem -Filter $fileName) ) {
     Write-Output "[[ Journal/$($todaysDate.Year) ]]" >> $fileName
-    Write-Output "Entry Number: $journalEntryNumber" >> $fileName
 }
 
 vim "$fileName"
