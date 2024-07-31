@@ -18,7 +18,7 @@ $todaysDate = Get-Date
 $todaysDateAsString = Get-Date -Format "yyyy-MM-dd"
 $fileName = "Journal-" + $todaysDateAsString + ".md"
 if ( !(Get-ChildItem -Filter $fileName) ) {
-    Write-Output "[[ Journal/$($todaysDate.Year) ]]" >> $fileName
+    Write-Output "[[ Journal/$($todaysDate.Year) ]]" > $fileName
 }
 
 vim "$fileName"
