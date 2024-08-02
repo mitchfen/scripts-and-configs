@@ -5,7 +5,6 @@ $env:DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 Set-Alias -Name k -Value kubectl
 Set-Alias -Name home -Value Set-LocationHome
-Set-Alias -Name j -Value createJournalEntry.ps1
 Set-Alias -Name Get-Updates -Value updateArch.ps1
 
 oh-my-posh init pwsh | Invoke-Expression
@@ -14,9 +13,6 @@ oh-my-posh init pwsh --config "$env:POSHTHEMESPATH/avit.omp.json" | Invoke-Expre
 
 function Get-Codes { ykman oath accounts code }
 function Get-RunningDaemons { systemctl list-units --type=service --state=running }
-function Edit-NugetConfig {
-    "code $env:APPDATA\NuGet\NuGet.Config" | Invoke-Expression
-}
 function Add-PathVariable {
     param (
         [string]$addPath
@@ -26,7 +22,7 @@ function Add-PathVariable {
         $arrPath = $env:PATH -split ':' | Where-Object {$_ -notMatch "^$regexAddPath\\?"}
         $env:PATH = ($arrPath + $addPath) -join ':'
     } else {
-        Throw "'$addPath' is not a valid path."
+        throw "'$addPath' is not a valid path."
     }
 }
 

@@ -57,7 +57,7 @@ function Update-OhMyPosh {
 }
 
 Write-Section "Updating pacman packages..."
-sudo pacman -Syyu
+sudo pacman -Syu
 
 Write-Section "Updating aur packages..."
 Update-AurPackages
