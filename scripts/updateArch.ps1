@@ -54,6 +54,7 @@ function Update-OhMyPosh {
     return
   }
   sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s
+  Write-Output $latestVersion> $ohMyPoshVersionFile
 }
 
 Write-Section "Updating pacman packages..."
@@ -71,5 +72,6 @@ flatpak update
 Write-Section "Removing unused pacman packages..."
 Remove-UnusedPackmanPackages
 
-Write-Section "Getting system info..."
-neofetch
+Write-Section "Current package counts:"
+Write-Host "Pacman packages: $(pacman -Q | wc -l)"
+Write-Host "Flatpak packages: $(flatpak list | wc -l)"
