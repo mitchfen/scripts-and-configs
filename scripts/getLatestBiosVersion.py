@@ -1,15 +1,15 @@
 from bs4 import BeautifulSoup
-import requests
-import subprocess
+from requests import get as getHtml
+from subprocess import check_output as runShellCommand
 
 # Get current BIOS version
 command = "sudo dmidecode -t 0 | grep Version"
-stdout = subprocess.check_output(command, shell=True, text=True)
+stdout = runShellCommand(command, shell=True, text=True)
 currentBiosVersion = stdout.split(":")[1].strip()
 
 # Get latest BIOS version
 url = "https://www.asrock.com/mb/AMD/B650E%20Steel%20Legend%20WiFi/BIOS.html"  # Replace with the actual URL
-response = requests.get(url)
+response = getHtml(url)
 response.raise_for_status()
 soup = BeautifulSoup(response.content, "html.parser")
 
