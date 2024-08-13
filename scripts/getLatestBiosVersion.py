@@ -1,0 +1,34 @@
+from bs4 import BeautifulSoup
+import requests
+import subprocess
+
+# Get current BIOS version
+command = "sudo dmidecode -t 0 | grep Version"
+stdout = subprocess.check_output(command, shell=True, text=True)
+currentBiosVersion = stdout.split(":")[1].strip()
+
+# Get latest BIOS version
+url = "https://www.asrock.com/mb/AMD/B650E%20Steel%20Legend%20WiFi/BIOS.html"  # Replace with the actual URL
+response = requests.get(url)
+response.raise_for_status()
+soup = BeautifulSoup(response.content, "html.parser")
+
+table = soup.find("table")
+if not table:
+    raise("No table found in the HTML.")
+
+rows = table.find_all("tr")
+if not rows:
+    raise("No rows found in the table.")
+
+cells = rows[1].find_all("td", recursive=False)
+if not cells:
+    raise("No cells found in the first row.")
+else:
+    latestBiosVersion = cells[0].text.strip()
+
+updateText = "\033[32mNo need to update.\033[0m"
+if currentBiosVersion < latestBiosVersion:
+    updateText = "\033[33mYou should update!\033[0m"
+
+print(f"Current BIOS: {currentBiosVersion}\nLatestBIOS: {latestBiosVersion}\n{updateText}")
