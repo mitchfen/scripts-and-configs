@@ -59,7 +59,7 @@ function Update-OhMyPosh {
     return
   }
   sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s
-  Write-Output $latestVersion> $ohMyPoshVersionFile
+  $latestVersion | Out-File $ohMyPoshVersionFile
 }
 
 function Get-BiosVersions {
