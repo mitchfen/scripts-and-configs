@@ -8,7 +8,7 @@ stdout = runShellCommand(command, shell=True, text=True)
 currentBiosVersion = stdout.split(":")[1].strip()
 
 # Get latest BIOS version
-url = "https://www.asrock.com/mb/AMD/B650E%20Steel%20Legend%20WiFi/BIOS.html"  # Replace with the actual URL
+url = "https://www.asrock.com/mb/AMD/B650E%20Steel%20Legend%20WiFi/BIOS.html"
 response = getHtml(url)
 response.raise_for_status()
 soup = BeautifulSoup(response.content, "html.parser")
