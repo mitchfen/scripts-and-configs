@@ -4,7 +4,6 @@ $env:DOTNET_ROOT="/home/mitchfen/.dotnet"
 $env:DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 Set-Alias -Name k -Value kubectl
-Set-Alias -Name home -Value Set-LocationHome
 Set-Alias -Name Get-Updates -Value updateArch.ps1
 
 oh-my-posh init pwsh | Invoke-Expression

@@ -18,7 +18,7 @@ function Update-AurPackages {
       Set-Location $_.FullName;
       $gitOutput = git pull;
       if ( $gitOutput -like "Already up to date." ) {
-          Write-Host "$($_.Name) is already up to date"
+          Write-Host "$($_.Name) is already up to date" -ForegroundColor Green
       }
       else {
           makepkg -si
@@ -35,7 +35,7 @@ function Remove-UnusedPackmanPackages {
         sudo pacman -R $output
         return
       }
-      Write-Host "No uneccessary packages to remove."
+      Write-Host "No uneccessary packages to remove." -ForegroundColor Green
     }
   catch {
     Write-Error $_
@@ -57,6 +57,12 @@ function Update-OhMyPosh {
   Write-Output $latestVersion> $ohMyPoshVersionFile
 }
 
+function Get-BiosVersions {
+  Set-Location ~/dev/scripts_and_configs/scripts
+  python getLatestBiosVersion.py
+  Set-Location $PSScriptRoot
+}
+
 Write-Section "Updating pacman packages..."
 sudo pacman -Syu
 
@@ -71,6 +77,9 @@ flatpak update
 
 Write-Section "Removing unused pacman packages..."
 Remove-UnusedPackmanPackages
+
+Write-Section "Checking for BIOS updates..."
+Get-BiosVersions
 
 Write-Section "Current package counts:"
 Write-Host "Pacman packages: $(pacman -Q | wc -l)"
