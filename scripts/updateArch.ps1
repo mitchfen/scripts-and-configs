@@ -50,7 +50,7 @@ function Update-OhMyPosh {
   $latestVersion = $(Invoke-WebRequest  "https://api.github.com/repos/JanDeDobbeleer/oh-my-posh/tags?per_page=1").Content |  jq -r '.[0].name'
   Write-Host "Latest version is $latestVersion"
   if ($version -eq $latestVersion) {
-    Write-Host "Nothing to do!"
+    Write-Host "Nothing to do!" -ForegroundColor Green
     return
   }
   sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s
