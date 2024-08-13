@@ -1,4 +1,6 @@
 $aurPath = "~/aur" # set to location of downloaded aur git repos
+$scriptsPath = "~/dev/scripts_and_configs/scripts"
+$invocationDir = $PWD
 
 function Write-Section {
   param(
@@ -25,7 +27,7 @@ function Update-AurPackages {
           git clean -fxd
       }
   }
-  Set-Location $PSScriptRoot
+  Set-Location $invocationDir
 }
 
 function Remove-UnusedPackmanPackages {
@@ -40,12 +42,15 @@ function Remove-UnusedPackmanPackages {
   catch {
     Write-Error $_
   }
-  Write-Host ""
 }
 
 function Update-OhMyPosh {
   $ohMyPoshVersionFile = Join-Path $HOME ".oh-my-posh-version.txt"
-  $version = Get-Content $ohMyPoshVersionFile
+  $version = Get-Content $ohMyPoshVersionFile -ErrorAction Continue
+  if ($null -eq $version) {
+    sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s
+    return
+  }
   Write-Host "Currently installed version is $version"
   $latestVersion = $(Invoke-WebRequest  "https://api.github.com/repos/JanDeDobbeleer/oh-my-posh/tags?per_page=1").Content |  jq -r '.[0].name'
   Write-Host "Latest version is $latestVersion"
@@ -58,9 +63,9 @@ function Update-OhMyPosh {
 }
 
 function Get-BiosVersions {
-  Set-Location ~/dev/scripts_and_configs/scripts
+  Set-Location $scriptsPath
   python getLatestBiosVersion.py
-  Set-Location $PSScriptRoot
+  Set-Location $invocationDir
 }
 
 Write-Section "Updating pacman packages..."
