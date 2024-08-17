@@ -31,4 +31,7 @@ updateText = "\033[32mNo need to update.\033[0m"
 if currentBiosVersion < latestBiosVersion:
     updateText = "\033[33mYou should update!\033[0m"
 
-print(f"Current BIOS: {currentBiosVersion}\nLatestBIOS: {latestBiosVersion}\n{updateText}")
+print(f"Checked {url}")
+print(f"Current BIOS: {currentBiosVersion}\nLatestBIOS: {latestBiosVersion}")
+print(f"{updateText}")
+
