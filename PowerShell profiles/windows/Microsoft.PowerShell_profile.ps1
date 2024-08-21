@@ -54,17 +54,48 @@ Function Remove-OldPowerShellModules {
   }
 }
 
+Function azsubset {
+    param (
+        [Parameter(Mandatory)][string]$Subscription
+    )
+    Invoke-CustomCommand -Command "az account set --subscription $Subscription"
+    Invoke-CustomCommand -Command "az account show"
+}
+
 Function su {
 	Start-Process pwsh -Verb runAs
+}
+
+function Prompt {
+    $reset = "`e[0m"
+    $bold = "`e[1m"
+    $cyan= "`e[36m"
+    $green = "`e[32m"
+    $yellow = "`e[33m"
+    $lastCommand = $(Get-History)[-1]
+    $executionTime = $lastCommand.EndExecutionTime - $lastCommand.StartExecutionTime
+    if ($executionTime.TotalSeconds -lt 1) { $executionTimeFormatted = "<1" }
+    else {$executionTimeFormatted = $executionTime.TotalSeconds}
+    $currentDirectory = Get-Location
+    $prompt = "$bold$green$currentDirectory$reset | $cyan$executionTimeFormatted S $reset >> "
+    return $prompt
 }
 
 # Aliases
 Set-Alias -Name j -Value createJournalEntry.ps1
 Set-Alias -Name lf -Value lf.exe
-Set-Alias -Name k -Value "kubectl"
 Set-Alias -Name vim -Value "C:/Program Files/Neovim/bin/nvim.exe"
 Set-Alias -Name unzip -Value "Expand-Archive"
+Set-Alias -Name rider -Value "C:\Program Files (x86)\JetBrains\JetBrains Rider\bin\rider64.exe"
 Set-Alias -Name 7z -Value 'C:\Program Files\7-Zip\7zFM.exe'
+
+# K8s aliases
+$wingetPackagesPath = "$env:LOCALAPPDATA\Microsoft\WinGet\Packages"
+Set-Alias -Name kubectl -Value $(Join-Path $wingetPackagesPath "Kubernetes.kubectl_Microsoft.Winget.Source_8wekyb3d8bbwe\kubectl.exe")
+Set-Alias -Name k -Value "kubectl"
+Set-Alias -Name kubelogin -Value $(Join-Path $wingetPackagesPath "Microsoft.Azure.Kubelogin_Microsoft.Winget.Source_8wekyb3d8bbwe\bin\windows_amd64\kubelogin.exe")
+Set-Alias -Name k9s -Value $(Join-Path $wingetPackagesPath "Derailed.k9s_Microsoft.Winget.Source_8wekyb3d8bbwe\k9s.exe")
+Set-Alias -Name jq -Value $(Join-Path $wingetPackagesPath "jqlang.jq_Microsoft.Winget.Source_8wekyb3d8bbwe\jq.exe")
 
 # GNU Core utils from Git Bash
 Set-Alias -Name grep -Value "C:\Program Files\Git\usr\bin\grep.exe"
@@ -79,8 +110,3 @@ Set-Alias -Name sed -Value "C:\Program Files\Git\usr\bin\sed.exe"
 Set-Alias -Name gnudiff -Value "C:\Program Files\Git\usr\bin\diff.exe"
 Set-Alias -Name gnucat -Value "C:\Program Files\Git\usr\bin\cat.exe"
 Set-Alias -Name base64 -Value 'C:\Program Files\Git\usr\bin\base64.exe'
-
-oh-my-posh init pwsh | Invoke-Expression
-$theme = "avit" # Extremely fast and simple
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/$theme.omp.json" | Invoke-Expression
-
