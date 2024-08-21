@@ -36,11 +36,11 @@ Function Edit-NugetConfig {
   "vim $env:APPDATA\NuGet\NuGet.Config" | Invoke-Expression
 }
 
-Function Clear-ConfigitNugetCache {
+Function Clear-NugetCache {
   $nugetCacheDir = "$HOME\.nuget\packages"
-  $diskSpaceUsed = du -ch $nugetCacheDir/configit* | grep total
-  Write-Host "Configit packages make up $diskSpaceUsed"
-  Get-ChildItem -Path $(Join-Path $nugetCacheDir "configit*") | ForEach-Object {
+  $diskSpaceUsed = du -ch $nugetCacheDir/* | grep total
+  Write-Host "NuGet packages make up $diskSpaceUsed"
+  Get-ChildItem -Path $nugetCacheDir | ForEach-Object {
       Write-Host "Deleting" $_.Name
       Remove-Item $_.FullName -Recurse -Force
   }
@@ -54,14 +54,6 @@ Function Remove-OldPowerShellModules {
   }
 }
 
-Function azsubset {
-    param (
-        [Parameter(Mandatory)][string]$Subscription
-    )
-    Invoke-CustomCommand -Command "az account set --subscription $Subscription"
-    Invoke-CustomCommand -Command "az account show"
-}
-
 Function su {
 	Start-Process pwsh -Verb runAs
 }
@@ -70,14 +62,15 @@ function Prompt {
     $reset = "`e[0m"
     $bold = "`e[1m"
     $cyan= "`e[36m"
-    $green = "`e[32m"
-    $yellow = "`e[33m"
-    $lastCommand = $(Get-History)[-1]
-    $executionTime = $lastCommand.EndExecutionTime - $lastCommand.StartExecutionTime
-    if ($executionTime.TotalSeconds -lt 1) { $executionTimeFormatted = "<1" }
-    else {$executionTimeFormatted = $executionTime.TotalSeconds}
+    $pink = "`e[38;5;205m"
+    
     $currentDirectory = Get-Location
-    $prompt = "$bold$green$currentDirectory$reset | $cyan$executionTimeFormatted S $reset >> "
+    try {
+      $branch = $(git rev-parse --abbrev-ref HEAD).Trim()
+      $prompt = "$pink$currentDirectory$reset | $cyan$branch$reset → "
+    } catch {
+      $prompt = "$pink$currentDirectory$reset → "
+    }
     return $prompt
 }
 
