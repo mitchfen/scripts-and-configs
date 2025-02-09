@@ -2,6 +2,7 @@ $ErrorActionPreference = 'Stop'
 $ProgressPreference="SilentlyContinue"
 
 Set-Alias vim nvim
+$repoDir = "~/repos/scripts-and-configs"
 
 function Get-RunningDaemons { systemctl list-units --type=service --state=running }
 
@@ -19,7 +20,6 @@ function Add-PathVariable {
 }
 
 function Start-NixRebuild {
-  $repoDir = "~/repos/scripts_and_configs"
   Push-Location
   sudo nixos-rebuild switch
   Copy-Item "/etc/nixos/configuration.nix" $(Join-Path $repoDir "nixos")
@@ -33,22 +33,19 @@ function Start-NixGarbageCollect {
 }
 
 function Edit-NixConfig {
-  sudo nvim /etc/nixos/configuration.nix
+  sudo nvim "/etc/nixos/configuration.nix"
 }
 
 function Get-NixGenerations {
   sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
 }
 
-foreach( $path in @(
-    "~/repos/scripts_and_configs/scripts"
-)) {
+foreach( $path in @($(Join-Path $repoDir "scripts"))) {
     Add-PathVariable $path
 }
 
 function Prompt {
     $reset = "`e[0m"
-    $bold = "`e[1m"
     $cyan= "`e[36m"
     $pink = "`e[38;5;205m"
 
