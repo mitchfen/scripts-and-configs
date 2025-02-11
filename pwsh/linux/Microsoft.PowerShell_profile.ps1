@@ -54,6 +54,7 @@ function Prompt {
   $currentDirectory = Get-Location
   $dateTime = Get-Date -Format "HH:mm:ss"
   $lastExitCode = $?
+  $hostname = hostname
 
   try {
       $branch = $(git rev-parse --abbrev-ref HEAD).Trim()
@@ -62,6 +63,6 @@ function Prompt {
       $branchInfo = ""
   }
 
-  $prompt = "$green$dateTime$reset | $pink$currentDirectory$reset$branchInfo $ "
+  $prompt = "$green$dateTime$reset | $hostname | $pink$currentDirectory$reset$branchInfo $ "
   return $prompt
 }
