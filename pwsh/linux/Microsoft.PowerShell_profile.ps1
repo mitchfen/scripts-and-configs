@@ -59,3 +59,25 @@ function Prompt {
     return $prompt
 }
 
+function Prompt {
+    $reset = "`e[0m"
+    $cyan = "`e[36m"
+    $pink = "`e[38;5;205m"
+    $yellow = "`e[33m"
+    $green = "`e[32m"
+
+    $currentDirectory = Get-Location
+    $dateTime = Get-Date -Format "HH:mm:ss"
+    $lastExitCode = $?
+
+    try {
+        $branch = $(git rev-parse --abbrev-ref HEAD).Trim()
+        $branchInfo = " | $cyan$branch$reset"
+    } catch {
+        $branchInfo = ""
+    }
+
+    $prompt = "$pink$currentDirectory$reset | $green$dateTime$reset$statusColor$reset$branchInfo → "
+    return $prompt
+}
+
