@@ -142,6 +142,7 @@
     protonvpn-gui
     runelite
     megacmd
+    kubectl
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
