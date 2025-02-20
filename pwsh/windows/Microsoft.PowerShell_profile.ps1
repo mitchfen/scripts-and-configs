@@ -88,7 +88,7 @@ function Prompt {
       $branchInfo = ""
   }
 
-  $prompt = "$green$dateTime$reset | $hostname | $pink$currentDirectory$reset$branchInfo $ "
+  $prompt = "$green$dateTime$reset | $pink$currentDirectory$reset$branchInfo $ "
   return $prompt
 }
 
