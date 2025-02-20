@@ -28,19 +28,20 @@ require'lspconfig'.powershell_es.setup{
 
 require'lspconfig'.csharp_ls.setup{}
 
+-- Lua vim configurations
+local o = vim.o
+o.expandtab = true -- expand tab input with spaces characters
+o.smartindent = true -- syntax aware indentations for newline inserts
+o.tabstop = 4 -- num of space characters per tab
+o.shiftwidth = 4 -- spaces per indentation level
+
 -- Old vim configurations
 vim.cmd([[
     colo dracula
 
     set encoding=utf-8
     set splitright
-
-    """ Indentation
-    "set autoindent
-    "set tabstop=2
-    "set softtabstop=-1
-    "set number relativenumber
-		set number
+    set number relativenumber
 
     """ Syntax and searchinng
     syntax on
@@ -57,7 +58,4 @@ vim.cmd([[
     """ Remove annoying Q macro key
     nnoremap Q q
     nnoremap q <Nop>
-
-    """ Delete trailing whitespace on save
-    autocmd BufWritePre * %s/\s\+$//e
 ]])
