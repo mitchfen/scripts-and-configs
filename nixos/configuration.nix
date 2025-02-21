@@ -143,6 +143,7 @@
     runelite
     megacmd
     kubectl
+    k9s
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
