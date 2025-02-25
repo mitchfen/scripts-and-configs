@@ -115,6 +115,7 @@
       "steam"
       "google-chrome"
       "obsidian"
+      "discord"
     ];
 
   # Installing packages
@@ -144,6 +145,7 @@
     megacmd
     kubectl
     k9s
+    discord
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
