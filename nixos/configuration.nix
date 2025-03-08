@@ -146,6 +146,7 @@
     kubectl
     k9s
     discord
+    signal-desktop
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
