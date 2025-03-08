@@ -147,6 +147,6 @@
     k9s
     discord
   ];
-  environment.gnome.excludePackages = with pkgs; [ gnome-tour xterm epiphany ];
+  environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
 
