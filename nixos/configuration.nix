@@ -134,7 +134,8 @@
     git
     powershell
     vlc
-    librewolf
+    #librewolf
+    librewolf-bin
     google-chrome
     mangohud
     github-desktop
