@@ -144,7 +144,7 @@
     runelite
     megacmd
     kubectl
-    helm
+    kubernetes-helm 
     k9s
     discord
     signal-desktop
