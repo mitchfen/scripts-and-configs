@@ -134,7 +134,6 @@
     git
     powershell
     vlc
-    #librewolf
     librewolf-bin
     google-chrome
     mangohud
@@ -145,6 +144,7 @@
     runelite
     megacmd
     kubectl
+    helm
     k9s
     discord
     signal-desktop
