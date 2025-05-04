@@ -148,7 +148,6 @@
     k9s
     discord
     signal-desktop
-    synergy
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
