@@ -125,7 +125,6 @@
     defaultEditor = true;
   };
   environment.systemPackages = with pkgs; [
-    dig
     go
     gh
     lf
@@ -148,7 +147,6 @@
     k9s
     discord
     signal-desktop
-    qbittorrent
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
