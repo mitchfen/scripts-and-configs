@@ -2,6 +2,7 @@ $ErrorActionPreference = 'Stop'
 $ProgressPreference="SilentlyContinue"
 
 Set-Alias vim nvim
+Set-Alias k kubectl
 $repoDir = "~/repos/scripts-and-configs"
 
 function Get-RunningDaemons { systemctl list-units --type=service --state=running }
@@ -25,6 +26,7 @@ function Start-NixRebuild {
   Copy-Item "/etc/nixos/configuration.nix" $(Join-Path $repoDir "nixos")
   Set-Location $repoDir
   git commit -am "update nix configuration"
+  git push
   Pop-Location
 }
 
@@ -48,7 +50,6 @@ function Prompt {
   $reset = "`e[0m"
   $cyan = "`e[36m"
   $pink = "`e[38;5;205m"
-  $yellow = "`e[33m"
   $green = "`e[32m"
 
   $currentDirectory = Get-Location
@@ -66,3 +67,4 @@ function Prompt {
   $prompt = "$green$dateTime$reset | $hostname | $pink$currentDirectory$reset$branchInfo $ "
   return $prompt
 }
+
