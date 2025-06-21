@@ -39,11 +39,7 @@ function Edit-NixConfig {
 }
 
 function Get-NixGenerations {
-  sudo nix-env --list-generations --profile /nix/var/nix/profiles/system
-}
-
-foreach( $path in @($(Join-Path $repoDir "scripts"))) {
-    Add-PathVariable $path
+  sudo nixos-rebuild list-generations
 }
 
 function Prompt {

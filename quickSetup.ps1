@@ -4,25 +4,30 @@ if ($PSVersionTable.PSVersion.Platform -ne 'Unix') {
     Exit
 }
 
-Write-Host "Getting configuration.nix..."
-$nixConfigUrl = "https://raw.githubusercontent.com/mitchfen/scripts-and-configs/refs/heads/main/nixos/configuration.nix" 
-$(Invoke-WebRequest $nixConfigUrl).Content | Out-File "/etc/nixos/configuration.nix"
+Function Get-FileFromUrl($url, $destination) {
+    $response = Invoke-WebRequest $url
+    $response.Content | Out-File $destination 
+}
 
-Write-Host "Getting PowerShell profile..."
-$pwshProfileUrl = "https://raw.githubusercontent.com/mitchfen/scripts-and-configs/refs/heads/main/pwsh/linux/Microsoft.PowerShell_profile.ps1"
-$(Invoke-WebRequest $pwshProfileUrl).Content | Out-File $PROFILE
-. $PROFILE
+$baseUrl = "https://raw.githubusercontent.com/mitchfen/scripts-and-configs/refs/heads/main"
 
-Write-Host "Getting lfrc..."
+$nixConfigDir = "/etc/nixos/configuration.nix"
 $lfrcDir = "~/.config/lf/lfrc"
-$lfrcUrl = "https://raw.githubusercontent.com/mitchfen/scripts-and-configs/refs/heads/main/lf/linux/lfrc"
-mkdir -p $lfrcDir
-$(Invoke-WebRequest $lfrcUrl).Content | Out-File $lfrcDir
-
-Write-Host "Getting neovim config..."
-$nvimConfigUrl = "https://raw.githubusercontent.com/mitchfen/scripts-and-configs/refs/heads/main/nvim/init.lua"
 $nvimConfigDir = "~/.config/nvim/init.vim"
-$(Invoke-WebRequest $nvimConfigUrl).Content | Out-File $nvimConfigDir
+$mangoHudDir = "~/.config/MangoHud/MangoHud.conf"
 
-Write-Host "Done! 🙂"
+$downloadArray = @(
+    @{url="$baseUrl/nixos/configuration.nix"; destination=$nixConfigDir}
+    @{url="$baseUrl/pwsh/linux/Microsoft.PowerShell_profile.ps1"; destination=$PROFILE}
+    @{url="$baseUrl/lf/linux/lfrc"; destination=$lfrcDir}
+    @{url="$baseUrl/nvim/init.lua"; destination=$nvimConfigDir}
+    @{url="$baseUrl/mangohud/MangoHud.conf"; destination=$mangoHudDir}
+)
+
+ForEach($item in $downloadArray) {
+    Get-FileFromUrl $item.url $item.destination
+}
+
+sudo nix-channel --update
+sudo nixos-rebuild switch --dry-run
 
