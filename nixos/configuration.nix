@@ -147,7 +147,7 @@
     k9s
     discord
     signal-desktop
-    exif-tool
+    exiftool
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
