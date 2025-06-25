@@ -47,14 +47,28 @@
   environment.systemPackages = with pkgs; [
     k3s
     kubernetes-helm
+    htop
     btop
     powershell
-    dig
     lf
     screenfetch
-    gh
-    git
+    dig
+    mkcert
   ];
+
+  systemd.services.k3s-server = {
+    description = "k3s server";
+    #After = [ "network.target" ];
+    #Wants = [ "network.target" ];
+
+    serviceConfig = {
+      Type = "exec";
+      ExecStart = "${pkgs.k3s}/bin/k3s server";
+      Restart = "on-failure";
+      RestartSec = 10;     };
+
+    wantedBy = [ "multi-user.target" ];
+  };
 
 
   services.openssh.enable = true;
@@ -62,7 +76,6 @@
 
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
 }
-
