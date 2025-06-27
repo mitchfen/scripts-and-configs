@@ -23,7 +23,7 @@ function Add-PathVariable {
 function Start-NixRebuild {
   Push-Location
   sudo nixos-rebuild switch --upgrade
-  Copy-Item "/etc/nixos/configuration.nix" $(Join-Path $repoDir "nixos")
+  Copy-Item "/etc/nixos/configuration.nix" $(Join-Path $repoDir "configs")
   Set-Location $repoDir
   git commit -am "update nix configuration"
   git push
