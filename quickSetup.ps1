@@ -17,11 +17,11 @@ $nvimConfigDir = "~/.config/nvim/init.vim"
 $mangoHudDir = "~/.config/MangoHud/MangoHud.conf"
 
 $downloadArray = @(
-    @{url="$baseUrl/nixos/configuration.nix"; destination=$nixConfigDir}
-    @{url="$baseUrl/pwsh/linux/Microsoft.PowerShell_profile.ps1"; destination=$PROFILE}
-    @{url="$baseUrl/lf/linux/lfrc"; destination=$lfrcDir}
-    @{url="$baseUrl/nvim/init.lua"; destination=$nvimConfigDir}
-    @{url="$baseUrl/mangohud/MangoHud.conf"; destination=$mangoHudDir}
+    @{url="$baseUrl/configs/configuration.nix"; destination=$nixConfigDir}
+    @{url="$baseUrl/configs/powershell-profiles/linux/Microsoft.PowerShell_profile.ps1"; destination=$PROFILE}
+    @{url="$baseUrl/configs/lfrc"; destination=$lfrcDir}
+    @{url="$baseUrl/configs/init.lua"; destination=$nvimConfigDir}
+    @{url="$baseUrl/configs/MangoHud.conf"; destination=$mangoHudDir}
 )
 
 ForEach($item in $downloadArray) {
