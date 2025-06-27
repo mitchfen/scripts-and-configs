@@ -139,15 +139,12 @@
     github-desktop
     yubioath-flutter
     obsidian
-    protonvpn-gui
     runelite
-    megacmd
     kubectl
     kubernetes-helm 
     k9s
     discord
     signal-desktop
-    exiftool
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
