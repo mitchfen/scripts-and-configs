@@ -145,6 +145,9 @@
     k9s
     discord
     signal-desktop
+    yubikey-manager
+    yubico-piv-tool
+    openssl
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
 }
