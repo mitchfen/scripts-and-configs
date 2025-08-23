@@ -129,7 +129,7 @@
     gh
     lf
     btop
-    screenfetch
+    microfetch
     git
     powershell
     vlc
@@ -139,14 +139,11 @@
     github-desktop
     yubioath-flutter
     obsidian
-    runelite
     kubectl
     kubernetes-helm 
     k9s
     discord
     signal-desktop
-    yubikey-manager
-    yubico-piv-tool
     openssl
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
