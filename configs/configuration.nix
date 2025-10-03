@@ -2,7 +2,7 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
     ];
 
@@ -12,8 +12,8 @@
 
   # Networking
   networking.hostName = "lumbridge";
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Time
   time.timeZone = "America/Detroit";
@@ -32,12 +32,12 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.pcscd.enable = true;
+  services.openssh.enable = true;
+  services.displayManager.gdm.enable = true; # Gnome
+  services.desktopManager.gnome.enable = true; # Gnome
+  #services.printing.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -45,67 +45,41 @@
     variant = "";
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    extraConfig.pipewire.noresample = { 
+      "context.properties" = { 
+        "default.clock.allowed-rates" = [ 48000 44100 96000 192000 ];
+	"default.clock.rate" = 192000;
+      }; 
+    };
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   users.users.mitchfen = {
     isNormalUser = true;
     description = "mitchfen";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ 
+      "networkmanager" 
+      "wheel" 
+    ];
     shell = pkgs.powershell;
     packages = with pkgs; [
-    #  user specific packages here
+      # user specific packages here
     ];
   };
 
-  # Enable automatic login for the user.
+  # Uncomment these 4 to enable automatic login for the user.
   #services.xserver.displayManager.autoLogin.enable = true;
   #services.xserver.displayManager.autoLogin.user = "mitchfen";
-
-  # Yubikey support
-  services.pcscd.enable = true;
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-    services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Do not change without reading docs
-  system.stateVersion = "24.11";
+  #systemd.services."getty@tty1".enable = false; # workaround
+  #systemd.services."autovt@tty1".enable = false; # workaround
 
   # Determine which unfree packages can be installed
   #nixpkgs.config.allowUnfree = true;
@@ -118,7 +92,6 @@
       "discord"
     ];
 
-  # Installing packages
   programs.steam.enable = true;
   programs.neovim = {
     enable = true;
@@ -147,5 +120,9 @@
     openssl
   ];
   environment.gnome.excludePackages = with pkgs; [ gnome-tour geary xterm epiphany ];
+
+  # Do not change without reading the docs
+  system.stateVersion = "24.11";
 }
+
 
