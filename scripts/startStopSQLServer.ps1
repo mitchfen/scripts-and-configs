@@ -4,7 +4,7 @@ param(
     [switch]$Stop
 )
 
-$services = @('MSSQLSERVER', 'SQLWriter')
+$services = @('MSSQLSERVER')
 
 foreach ($service in $services) {
     if ($Stop) {
