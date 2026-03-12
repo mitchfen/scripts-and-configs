@@ -2,7 +2,7 @@
 
 {
   imports =
-    [ 
+    [
       ./hardware-configuration.nix
     ];
 
@@ -47,21 +47,21 @@
   environment.systemPackages = with pkgs; [
     k3s
     kubernetes-helm
+    htop
     btop
     powershell
     lf
-    microfetch 
+    screenfetch
+    dig
     mkcert
   ];
 
   systemd.services.k3s-server = {
     description = "k3s server";
-    #After = [ "network.target" ];
-    #Wants = [ "network.target" ];
 
     serviceConfig = {
       Type = "exec";
-      ExecStart = "${pkgs.k3s}/bin/k3s server";
+      ExecStart = "${pkgs.k3s}/bin/k3s server --disable traefik";
       Restart = "on-failure";
       RestartSec = 10;     };
 
@@ -77,3 +77,4 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
+

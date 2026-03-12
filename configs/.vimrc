@@ -22,12 +22,6 @@ set showmatch
 set ignorecase
 set incsearch
 
-""" Text wrapping and width
-set wrap
-set textwidth=80
-set colorcolumn=81
-
-
 """ Status bar and ruler
 set laststatus=1
 set ruler
