@@ -6,6 +6,14 @@
       ./hardware-configuration.nix
     ];
 
+  fileSystems."/" = {
+  options = [ "noatime" ];
+  };
+
+  services.journald.extraConfig = "Storage=volatile";
+
+  nix.settings.auto-optimise-store = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -47,13 +55,10 @@
   environment.systemPackages = with pkgs; [
     k3s
     kubernetes-helm
-    htop
     btop
     powershell
     lf
     screenfetch
-    dig
-    mkcert
   ];
 
   systemd.services.k3s-server = {
